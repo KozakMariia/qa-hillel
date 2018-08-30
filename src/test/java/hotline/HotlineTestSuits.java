@@ -1,9 +1,6 @@
 package hotline;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -14,7 +11,7 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
 
 public class HotlineTestSuits {
 
-    private WebDriver driver;
+    private static WebDriver driver;
 
     @Before
     public void driverSetUp() {
@@ -33,12 +30,12 @@ public class HotlineTestSuits {
         productsSearchResultPage.chooseProduct(0);
         productsSearchResultPage.chooseProduct(1);
 
-        List<String> productsOnMainPage = productsSearchResultPage.getChosenElementsNames();
+        List<String> productsOnMainPage = productsSearchResultPage.getChosenElementsNames("(");
 
         productsSearchResultPage.clickCompareButton();
         HotlineComparePage hotlineComparePage = productsSearchResultPage.clickCompareButtonProduct();
 
-        List<String> compareProductsName = hotlineComparePage.getAllCompareProductsNames();
+        List<String> compareProductsName = hotlineComparePage.getAllCompareProductsNames("(");
 
         Assert.assertThat(productsOnMainPage, containsInAnyOrder(compareProductsName.toArray()));
 
@@ -75,12 +72,12 @@ public class HotlineTestSuits {
         productsSearchResultPage.chooseProduct(1);
         productsSearchResultPage.chooseProduct(2);
 
-        List<String> productsOnMainPage = productsSearchResultPage.getChosenElementsNames();
+        List<String> productsOnMainPage = productsSearchResultPage.getChosenElementsNames("GB");
 
         productsSearchResultPage.clickCompareButton();
         HotlineComparePage hotlineComparePage = productsSearchResultPage.clickCompareButtonProduct();
 
-        List<String> compareProductsName = hotlineComparePage.getAllCompareProductsNames();
+        List<String> compareProductsName = hotlineComparePage.getAllCompareProductsNames("GB");
 
         Assert.assertThat(productsOnMainPage, containsInAnyOrder(compareProductsName.toArray()));
     }
@@ -113,6 +110,11 @@ public class HotlineTestSuits {
     @After
     public void driverTeamDown() {
         driver.close();
+    }
+
+    @AfterClass
+    public static void driverQuite() {
+        driver.quit();
     }
 }
 

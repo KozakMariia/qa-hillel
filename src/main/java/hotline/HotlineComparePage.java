@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -38,7 +39,7 @@ public class HotlineComparePage {
     private WebDriver driver;
 
     public HotlineComparePage(WebDriver driver) {
-        Set<String> windowHandles = driver.getWindowHandles();
+        Set<String> windowHandles = new HashSet<>(driver.getWindowHandles());
         windowHandles.remove(driver.getWindowHandle());
 
         driver = driver.switchTo().window(windowHandles.iterator().next());
@@ -50,12 +51,12 @@ public class HotlineComparePage {
     }
 
 
-    public List<String> getAllCompareProductsNames() {
+    public List<String> getAllCompareProductsNames(String substringBefore) {
         List<String> phones = new ArrayList<>();
         for (WebElement phone : allProductsOnPage) {
             WebElement nameElement = phone.findElement(By.xpath(FIND_NAME_PHONES_XPATH));
             String name = nameElement.getText();
-            phones.add(StringUtils.substringBefore(name, "("));
+            phones.add(StringUtils.substringBefore(name, substringBefore));
         }
 
         return phones;

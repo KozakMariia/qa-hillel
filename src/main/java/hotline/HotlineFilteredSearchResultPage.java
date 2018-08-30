@@ -108,9 +108,9 @@ public class HotlineFilteredSearchResultPage {
         jsOne.executeScript("arguments[0].click();", webElement);
     }
 
-    public List<String> getChosenElementsNames() {
+    public List<String> getChosenElementsNames(String substringBefore) {
         return chosenElementsNames.stream()
-                .map(name -> StringUtils.substringBefore(name, "("))
+                .map(name -> StringUtils.substringBefore(name, substringBefore))
                 .collect(Collectors.toList());
     }
 
